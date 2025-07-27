@@ -14,6 +14,8 @@ const MongoStore = require("connect-mongo");
 mongoose.connect(process.env.MONGODB_URI);
 const isSignedIn = require("./middleware/is-signed-in.js");
 const passUserToView = require("./middleware/pass-user-to-view.js");
+const listingsController = require("./controllers/listings")
+
 
 mongoose.connection.on("connected", () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
@@ -45,9 +47,11 @@ app.get("/", async (req, res) => {
 
 app.use("/auth", authController);
 
-app.get("/vip-lounge", isSignedIn, (req, res) => {
-  res.send(`Welcome to the party ${req.session.user.username}`);
-});
+app.use("/listings", listingsController)
+
+
+
+
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
