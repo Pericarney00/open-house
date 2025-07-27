@@ -53,5 +53,28 @@ router.post("/", async (req, res) => {
   }
 })
 
+
+// UPDATE PUT
+
+// DELETE
+router.delete("/:listingId", async (req, res) => {
+  try{
+    const listing = await Listing.findById(req.params.listingId);
+    
+    if (listing.owner.equals(req.session.user._id)) {
+      await listing.deleteOne()
+      res.redirect("/listings")
+    } else {
+      res.send("You don't haave permission to do that")
+    }
+    res.send(`A DELETE request was issued for " ${req.params.listingId}`)
+  } catch(error) {
+    console.log(error)
+    res.redirect("/")
+  }
+})
+
+
+
 // Exports
 module.exports = router;
