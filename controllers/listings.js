@@ -6,9 +6,11 @@ const Listing = require("../models/listing")
 // GET /listings index
 router.get("/", async (req, res) => {
   try {
-    const allListings = await Listing.find({});
-    console.log(allListings)
-    res.render("listings/index.ejs")
+    const populatedListings = await Listing.find({}).populate("owner");
+    console.log(`Populated listings: ${populatedListings}`)
+    res.render("listings/index.ejs", {
+      listings: populatedListings
+    })
   } catch (error) {
     console.log(error);
     res.redirect("/")
@@ -19,6 +21,20 @@ router.get("/", async (req, res) => {
 router.get("/new", (req, res) => {
   try {
     res.render("listings/new.ejs")
+  } catch (error) {
+    console.log(error)
+    res.redirect("/")
+  }
+})
+
+
+// GET /:listingId specfic listing details
+router.get("/:listingId", async (req, res) => {
+  try {
+    const populatedListings = await Listing.findById(req.params.listingId).populate("owner")
+    res.render("listings/show.ejs", {
+      listing: populatedListings,
+    })
   } catch (error) {
     console.log(error)
     res.redirect("/")

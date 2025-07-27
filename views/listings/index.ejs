@@ -3,11 +3,19 @@
 
   <main>
     <h1>All Listings</h1>
+
+    <ul>
+    <% listings.forEach(listing => { %>
+      <li>
+        A listing in <%= listing.city %> owned by <%= listing.owner.username %>
+        <a href="/listings/<%= listing._id %>">View More Details</a>
+      </li>
+        
+    <% }) %>
+
+    </ul>
+
 <a role=button href="listings/new">Add New Listing</a>
-
-  </main>
-
-
-  
+</main>
 </body>
 </html>
