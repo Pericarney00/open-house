@@ -14,7 +14,7 @@ const MongoStore = require("connect-mongo");
 mongoose.connect(process.env.MONGODB_URI);
 const isSignedIn = require("./middleware/is-signed-in.js");
 const passUserToView = require("./middleware/pass-user-to-view.js");
-const listingsController = require("./controllers/listings")
+const listingsController = require("./controllers/listings.js")
 
 
 mongoose.connection.on("connected", () => {
@@ -46,7 +46,7 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/auth", authController);
-
+// mount listings controller
 app.use("/listings", listingsController)
 
 
