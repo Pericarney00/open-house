@@ -25,6 +25,17 @@ router.get("/new", (req, res) => {
   }
 })
 
+// POST /listings
+router.post("/", async (req, res) => {
+  try {
+    req.body.owner = req.session.user._id
+    await Listing.create(req.body)
+    res.redirect("/listings")
+  } catch (error) {
+    console.log(error)
+    res.redirect("/")
+  }
+})
 
 // Exports
 module.exports = router;
