@@ -28,18 +28,26 @@ router.get("/new", (req, res) => {
 })
 
 
-// GET /:listingId specfic listing details
+// GET show /:listingId specfic listing details
 router.get("/:listingId", async (req, res) => {
   try {
-    const populatedListings = await Listing.findById(req.params.listingId).populate("owner")
+    const populatedListings = await Listing.findById(
+      req.params.listingId
+    ).populate("owner");
+
+    const userHasFavorited = populatedListings.favoritedByUsers.some((user) =>
+      user.equals(req.session.user._id)
+    );
+
     res.render("listings/show.ejs", {
       listing: populatedListings,
-    })
+      userHasFavorited: userHasFavorited,
+    });
   } catch (error) {
-    console.log(error)
-    res.redirect("/")
+    console.log(error);
+    res.redirect("/");
   }
-})
+});
 
 // POST /listings
 router.post("/", async (req, res) => {
@@ -52,7 +60,18 @@ router.post("/", async (req, res) => {
     res.redirect("/")
   }
 })
-
+// POST favorites
+router.post("/:listingId/favorited-by/:userId", async (req, res) => {
+  try {
+    await Listing.findByIdAndUpdate(req.params.listingId, {
+      $push: { favoritedByUsers: req.params.userId },
+    });
+    res.redirect(`/listings/${req.params.listingId}`);
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+});
 
 // GET/ UPDATE PUT
 router.get("/:listingId/edit", async (req, res) => {
