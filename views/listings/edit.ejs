@@ -1,0 +1,52 @@
+<%- include('../partials/_html-head.ejs', {title: "Edit Listing"}) %>
+<%- include('../partials/_nav-bar.ejs') %>
+
+<main>
+  <h1>Edit Listing</h1>
+
+  <article>
+  <form action="/listings/<%= listing._id %>?_method=PUT" method="POST">
+    <label for="streetAddress">Street Address</label>
+    <input 
+      type="text" 
+      name="streetAddress" 
+      id="streetAddress" 
+      required 
+      value="<%= listing.streetAddress %>"
+    >
+
+    <label for="city">City</label>
+    <input 
+      type="text" 
+      name="city" 
+      id="city" 
+      required
+      value="<%= listing.city %>"
+    >
+
+    <label for="price">Price</label>
+    <input 
+      type="number" 
+      min="0"
+      name="price" 
+      id="price" 
+      required 
+      value="<%= listing.price %>"
+    >
+
+    <label for="size">Size</label>
+    <input 
+      type="number" 
+      min="0" 
+      name="size" 
+      id="size" 
+      required
+      value="<%= listing.size %>"
+    >
+    
+    <button type="submit">Submit Edits</button>
+  </form>
+</article>
+</main>
+</body>
+</html>

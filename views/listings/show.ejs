@@ -12,6 +12,9 @@
       <% if (listing.owner._id.equals(user._id)) { %>
         <p>You own this!</p>
 
+        <button type="submit">
+          <a href="/listings/<%= listing._id %>/edit">Edit this listing</a>
+        </button>
         <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
           <button type="submit">Delete this listing</button>
         </form>
